@@ -1,4 +1,4 @@
-import socket from "../socket/socket";
+import socket from "../../../../socket/socket";
 
 export default async (_, res) => {
   try {
