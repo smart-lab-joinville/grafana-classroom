@@ -1,0 +1,50 @@
+services:
+  client-app:
+    container_name: grafana-classroom-client-app
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - ${CLIENT_APP_PORT}=${CLIENT_APP_PORT}
+    environment:
+      - PORT=${CLIENT_APP_PORT}
+      - NODE_ENV=${CLIENT_APP_NODE_ENV}
+
+  server-app:
+    container_name: grafana-classroom-server-app
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - ${SERVER_APP_PORT}=${SERVER_APP_PORT}
+    environment:
+      - NODE_ENV=${SERVER_APP_NODE_ENV}
+    networks:
+      - database-connection
+      - docker-interface-connection
+
+  database:
+    container_name: grafana-classroom-database
+    # TODO: Pick one between MSSQL or PostgreSQL
+
+  docker-intf:
+    container_name: grafana-classroom-docker-intf
+    build:
+      context: ./grafana-prov/docker-intf
+      dockerfile: Dockerfile
+      target: production
+    environment:
+      - PORT=${DOCKER_INTERFACE_SERVER_PORT}
+      - SOCKET_BIND=${DOCKER_INTERFACE_SERVER_SOCKET_PATH}
+    volumes:
+      - /var/run/docker.sock:${DOCKER_INTERFACE_SERVER_SOCKET_PATH}
+    networks:
+      - docker-interface-connection
+
+networks:
+  database-connection:
+    driver: bridge
+  docker-interface-connection:
+    driver: bridge
