@@ -1,0 +1,17 @@
+{
+  "name": "docker-intf",
+  "type": "module",
+  "scripts": {
+    "dev": "node ./src/server.js",
+    "build": "esbuild ./src/server.js --bundle --platform=node --outfile=./dist/bundle.cjs",
+    "start": "node ./dist/bundle.cjs"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "esbuild": "^0.23.1"
+  }
+}
