@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const socket = axios.create({
-    socketPath: "/app/docker.sock",
+    // socketPath: "/app/docker.sock",
+    socketPath: process.env.SOCKET_PATH,
     baseURL: "http://172.0.0.1:2375/v1.46/"
 });
 
@@ -12,7 +13,8 @@ const socket = axios.create({
 
 export async function testSocket() {
     const res = await axios({
-        socketPath: "/app/docker.sock",
+        // socketPath: "/app/docker.sock",
+        socketPath: process.env.SOCKET_PATH,
         url: "http://localhost:2375/info",
     });
 
